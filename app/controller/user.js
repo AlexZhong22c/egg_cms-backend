@@ -65,12 +65,12 @@ class UserController extends Controller {
    * @request path string *id
    * @response 200 baseResponse 操作成功
    */
-  async show() {
+  async detail() {
     const { ctx, service } = this
     // 组装参数
     const { id } = ctx.params
     // 调用 Service 进行业务处理
-    const res = await service.user.show(id)
+    const res = await service.user.detail(id)
     // 设置响应内容和响应状态码
     ctx.helper.success({ctx, res})
   }

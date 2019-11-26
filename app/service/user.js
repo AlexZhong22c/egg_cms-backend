@@ -43,7 +43,7 @@ class UserService extends Service {
   /**
    * 查看单个用户
    */
-  async show(_id) {
+  async detail(_id) {
     const user = await this.ctx.service.user.find(_id)
     if (!user) {
       this.ctx.throw(404, 'user not found')
