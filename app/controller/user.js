@@ -97,18 +97,16 @@ class UserController extends Controller {
 
   /**
    * @summary 删除所选用户
-   * @router delete /api/user/{id}
-   * @request path string *id
+   * @router post /api/user/batch/delete
+   * @request body batchDeleteUserReq *body
    * @response 200 baseResponse 操作成功
    */
-  async removes() {
+  async batchDelete() {
     const { ctx, service } = this
     // 组装参数
-    // const payload = ctx.queries.id
-    const { id } = ctx.request.body
-    const payload = id.split(',') || []
+    const { ids } = ctx.request.body
     // 调用 Service 进行业务处理
-    const result = await service.user.removes(payload)
+    const result = await service.user.batchDelete(ids)
     // 设置响应内容和响应状态码
     ctx.helper.success({ctx})
   }

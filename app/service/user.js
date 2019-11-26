@@ -93,7 +93,7 @@ class UserService extends Service {
    * 删除多个用户
    * @param {*} payload 
    */
-  async removes(payload) {
+  async batchDelete(payload) {
     return this.ctx.model.User.deleteMany({ _id: { $in: payload } })
   }
 
