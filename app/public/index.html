@@ -21,7 +21,7 @@
         <div><a href="/swagger-ui.html">SwaggerUI</a></div>
         <div><a href="https://www.easy-mock.com/project/5ce3669a733e8967c7b2e902">EasyMock地址</a></div>
         <div>
-            <el-button @click="create">创建用户</el-button>
+            <el-button @click="addUser">创建用户</el-button>
             <el-button @click="list">用户列表</el-button>
             <el-button @click="del">删除用户</el-button>
         </div>
@@ -65,8 +65,8 @@
                 token: {}
             },
             methods: {
-                async create() {
-                    await axios.post('/api/user', {
+                async addUser() {
+                    await axios.post('/api/user/add', {
                         mobile: '15512345678',
                         password: 'Aa111111',
                         realName: '22c',

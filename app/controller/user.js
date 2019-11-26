@@ -10,18 +10,18 @@ class UserController extends Controller {
   /**
    * @summary 创建用户
    * @description 创建用户，记录用户账户/密码/类型
-   * @router post /api/user
-   * @request body createUserRequest *body
+   * @router post /api/user/add
+   * @request body addUserReq *body
    * @response 200 baseResponse 操作成功
    */
-  async create() {
+  async add() {
     const { ctx, service } = this
     // 校验参数
-    ctx.validate(ctx.rule.createUserRequest)
+    ctx.validate(ctx.rule.addUserReq)
     // 组装参数
     const payload = ctx.request.body || {}
     // 调用 Service 进行业务处理
-    const res = await service.user.create(payload)
+    const res = await service.user.add(payload)
     // 设置响应内容和响应状态码
     ctx.helper.success({ctx, res})
   }
@@ -45,13 +45,13 @@ class UserController extends Controller {
   /**
    * @summary 修改用户
    * @router put /api/user/
+   * @request body updateUserReq *body
    * @response 200 baseResponse 操作成功
-   * @ignore
    */
   async update() {
     const { ctx, service } = this
     // 校验参数
-    ctx.validate(ctx.rule.createUserRequest)
+    ctx.validate(ctx.rule.updateUserReq)
     // 组装参数
     const { id } = ctx.params
     const payload = ctx.request.body || {}

@@ -6,7 +6,7 @@ class UserService extends Service {
    * 创建用户
    * @param {*} payload 
    */
-  async create(payload) {
+  async add(payload) {
     const { ctx, service } = this
     payload.password = await this.ctx.genHash(payload.password)
     return ctx.model.User.create(payload)

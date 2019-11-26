@@ -33,7 +33,7 @@ class AppBootHook {
       console.log('========Init Data=========')
       const ctx = await this.app.createAnonymousContext();
       await ctx.model.User.deleteMany();
-      await ctx.service.user.create({
+      await ctx.service.user.add({
           mobile: '15512345678',
           password: 'Aa111111',
           realName: '22c',
