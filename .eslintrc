@@ -1,0 +1,9 @@
+{
+  "extends": "eslint-config-egg",
+  "rules": {
+    "strict": [2, "never"],
+    "no-useless-constructor": [2, "never"],
+    "jsdoc/check-tag-names": [2, "never"],
+    "array-bracket-spacing": [2, "never"]
+  }
+}
