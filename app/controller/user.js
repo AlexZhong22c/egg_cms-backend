@@ -12,7 +12,7 @@ class UserController extends Controller {
    * @description 创建用户，记录用户账户/密码/类型
    * @router post /api/user
    * @request body createUserRequest *body
-   * @response 200 baseResponse 创建成功
+   * @response 200 baseResponse 操作成功
    */
   async create() {
     const { ctx, service } = this
@@ -30,7 +30,7 @@ class UserController extends Controller {
    * @summary 删除单个用户
    * @router delete /api/user/{id}
    * @request path string *id eg:1 用户ID
-   * @response 200 baseResponse 创建成功
+   * @response 200 baseResponse 操作成功
    */
   async destroy() {
     const { ctx, service } = this
@@ -45,7 +45,7 @@ class UserController extends Controller {
   /**
    * @summary 修改用户
    * @router put /api/user/
-   * @response 200 baseResponse 创建成功
+   * @response 200 baseResponse 操作成功
    * @ignore
    */
   async update() {
@@ -65,7 +65,7 @@ class UserController extends Controller {
    * @summary 获取单个用户信息
    * @router get /api/user/{id}
    * @request path string *id
-   * @response 200 baseResponse 创建成功
+   * @response 200 baseResponse 操作成功
    */
   async show() {
     const { ctx, service } = this
@@ -85,7 +85,7 @@ class UserController extends Controller {
    * @request query integer *pageSize eg:10 单页数量
    * @request query string search eg: 搜索字符串
    * @request query boolean isPaging eg:true 是否需要翻页
-   * @response 200 baseResponse 创建成功
+   * @response 200 baseResponse 操作成功
    */
   async index() {
     const { ctx, service } = this
@@ -101,7 +101,7 @@ class UserController extends Controller {
    * @summary 删除所选用户
    * @router delete /api/user/{id}
    * @request path string *id
-   * @response 200 baseResponse 创建成功
+   * @response 200 baseResponse 操作成功
    */
   async removes() {
     const { ctx, service } = this
