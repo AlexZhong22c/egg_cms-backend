@@ -4,7 +4,7 @@ module.exports = {
   },
   baseResponse: {
     code: { type: 'integer', required: true, example: 0 },
-    data: { type: 'string', example: '操作成功' },
+    data: { type: 'string', example: '依情况返回' },
     msg: { type: 'string', example: '操作成功' },
   },
 };
