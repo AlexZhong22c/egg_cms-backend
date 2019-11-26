@@ -23,7 +23,7 @@
         <div>
             <el-button @click="addUser">创建用户</el-button>
             <el-button @click="list">用户列表</el-button>
-            <el-button @click="del">删除用户</el-button>
+            <el-button @click="deleteUser">删除用户</el-button>
         </div>
         <div>
             <el-button @click="login">登入</el-button>
@@ -76,10 +76,13 @@
                     const res = await axios.get('/api/user')
                     this.list = res.data.data.list
                 },
-                async del() {
+                // 为了演示，这个删除做得不完整的：(麻烦先赋值给this.list)
+                async deleteUser() {
                     console.log('list', this.list)
-                    this.list.map(v => {
-                        axios.delete(`/api/user/${v._id}`)
+                    this.list.forEach(item => {
+                        axios.post('/api/user/delete', {
+                            id: item._id
+                        })
                     })
                 },
                 async login() {

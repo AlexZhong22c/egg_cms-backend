@@ -4,8 +4,10 @@ const moment = require('moment')
 exports.success = ({ ctx, res = null, msg = '操作成功' }) => {
     ctx.body = {
         code: 0,
-        data: res,
         msg
+    }
+    if (res) {
+        ctx.body.data = res;
     }
     ctx.status = 200
 }

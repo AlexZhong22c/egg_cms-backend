@@ -16,7 +16,7 @@ class UserService extends Service {
    * 删除用户
    * @param {*} _id 
    */
-  async destroy(_id) {
+  async delete(_id) {
     const { ctx, service } = this
     const user = await ctx.service.user.find(_id)
     if (!user) {

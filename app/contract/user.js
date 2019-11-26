@@ -7,8 +7,12 @@ const updateUserReq = {
   // id: ''
   ...addUserReq
 };
+const deleteUserReq = {
+  id: { type: 'string', required: true, description: '用户的ID', example: '1' }
+};
 
 module.exports = {
   addUserReq,
-  updateUserReq
+  updateUserReq,
+  deleteUserReq
 };
