@@ -66,18 +66,15 @@ class UserController extends BaseController {
 
   
   /**
-   * @summary 获取所有用户(分页/模糊)
-   * @router get /api/user
-   * @request query integer *currentPage eg:1 当前页
-   * @request query integer *pageSize eg:10 单页数量
-   * @request query string search eg: 搜索字符串
-   * @request query boolean isPaging eg:true 是否需要翻页
+   * @summary 获取用户列表(分页)
+   * @router post /api/user/page
+   * @request body pageUserReq *body
    * @response 200 baseRes 操作成功
    */
-  async index() {
+  async page() {
     const { ctx, service } = this
-    const payload = ctx.query
-    const data = await service.user.index(payload)
+    ctx.validate(ctx.rule.pageUserReq)
+    const data = await service.user.page(ctx.request.body)
     this.success({ data })
   }
 

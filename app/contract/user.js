@@ -11,9 +11,16 @@ const updateUserReq = {
 const batchDeleteUserReq = {
   ids: { type: 'array', itemType: 'string', description: '用户的ID数组', example: ['1', '2', '3'] }
 };
+const pageUserReq = {
+  currentPage: { type: 'integer', required: false, example: 1 },
+  pageSize: { type: 'integer', required: false ,example: 5 },
+  fields: { type: 'array', itemType: 'object', required: false, example: [] },
+  populateFields: { type: 'array', itemType: 'string', required: false, example: [] }
+};
 
 module.exports = {
   addUserReq,
   updateUserReq,
-  batchDeleteUserReq
+  batchDeleteUserReq,
+  pageUserReq
 };
