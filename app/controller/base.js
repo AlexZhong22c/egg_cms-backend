@@ -4,6 +4,7 @@ module.exports = class BaseController extends Controller {
     get userSession() {
       return this.ctx.session.user;
     }
+    // 建议error用ctx.throw(status, message)，再让中间件处理错误得到response:
     success({ msg = '操作成功', data } = {}) {
       const { ctx } = this
       ctx.body = {
@@ -14,12 +15,5 @@ module.exports = class BaseController extends Controller {
         ctx.body.data = data;
       }
       ctx.status = 200
-    }
-    error(error) {
-        console.error(error);
-        this.ctx.body = {
-            code: 1,
-            msg: error.toString()
-        }
     }
 }
