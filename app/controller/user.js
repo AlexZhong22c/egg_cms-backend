@@ -12,7 +12,7 @@ class UserController extends Controller {
    * @description 创建用户，记录用户账户/密码/类型
    * @router post /api/user/add
    * @request body addUserReq *body
-   * @response 200 baseResponse 操作成功
+   * @response 200 baseRes 操作成功
    */
   async add() {
     const { ctx, service } = this
@@ -29,13 +29,13 @@ class UserController extends Controller {
   /**
    * @summary 删除单个用户
    * @router post /api/user/delete
-   * @request body deleteUserReq *body
-   * @response 200 baseResponse 操作成功
+   * @request body idReq *body
+   * @response 200 baseRes 操作成功
    */
   async delete() {
     const { ctx, service } = this
     // 校验参数
-    ctx.validate(ctx.rule.deleteUserReq)
+    ctx.validate(ctx.rule.idReq)
     const payload = ctx.request.body || {}
     // 调用 Service 进行业务处理
     await service.user.delete(payload.id)
@@ -47,7 +47,7 @@ class UserController extends Controller {
    * @summary 修改用户
    * @router post /api/user/update
    * @request body updateUserReq *body
-   * @response 200 baseResponse 操作成功
+   * @response 200 baseRes 操作成功
    */
   async update() {
     const { ctx, service } = this
@@ -63,13 +63,13 @@ class UserController extends Controller {
   /**
    * @summary 获取单个用户信息
    * @router post /api/user/detail
-   * @request body detailUserReq *body
-   * @response 200 baseResponse 操作成功
+   * @request body idReq *body
+   * @response 200 baseRes 操作成功
    */
   async detail() {
     const { ctx, service } = this
     // 组装参数
-    ctx.validate(ctx.rule.detailUserReq)
+    ctx.validate(ctx.rule.idReq)
     const payload = ctx.request.body || {}
     // 调用 Service 进行业务处理
     const res = await service.user.detail(payload.id)
@@ -85,7 +85,7 @@ class UserController extends Controller {
    * @request query integer *pageSize eg:10 单页数量
    * @request query string search eg: 搜索字符串
    * @request query boolean isPaging eg:true 是否需要翻页
-   * @response 200 baseResponse 操作成功
+   * @response 200 baseRes 操作成功
    */
   async index() {
     const { ctx, service } = this
@@ -101,7 +101,7 @@ class UserController extends Controller {
    * @summary 删除所选用户
    * @router post /api/user/batch/delete
    * @request body batchDeleteUserReq *body
-   * @response 200 baseResponse 操作成功
+   * @response 200 baseRes 操作成功
    */
   async batchDelete() {
     const { ctx, service } = this

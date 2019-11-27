@@ -14,7 +14,7 @@ class UserAccessController extends Controller {
    * @summary 用户登入
    * @router post /auth/login
    * @request body loginRequest *body
-   * @response 200 baseResponse 操作成功
+   * @response 200 baseRes 操作成功
    */
   async login() {
     const { ctx, service } = this
@@ -33,7 +33,7 @@ class UserAccessController extends Controller {
    * @summary 用户登出
    * @router post /auth/logout
    * @request body loginRequest *body
-   * @response 200 baseResponse 操作成功
+   * @response 200 baseRes 操作成功
    */
   async logout() {
     const { ctx, service } = this

@@ -8,12 +8,6 @@ const updateUserReq = {
   password: { type: 'string', required: false, description: '密码', example: 'Aa111111' },
   realName: { type: 'string', required: false, description: '姓名', example: 'Tom' },
 };
-const deleteUserReq = {
-  id: { type: 'string', description: '用户的ID', example: '1' }
-};
-const detailUserReq = {
-  id: { type: 'string', description: '用户的ID', example: '1' }
-};
 const batchDeleteUserReq = {
   ids: { type: 'array', itemType: 'string', description: '用户的ID数组', example: ['1', '2', '3'] }
 };
@@ -21,7 +15,5 @@ const batchDeleteUserReq = {
 module.exports = {
   addUserReq,
   updateUserReq,
-  deleteUserReq,
-  detailUserReq,
   batchDeleteUserReq
 };
