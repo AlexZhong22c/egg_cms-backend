@@ -22,13 +22,12 @@
         <div><span href="">TODO: EasyMock配合</span></div>
         <div>
             <el-button @click="addUser">创建用户</el-button>
-            <el-button @click="list">用户列表</el-button>
+            <el-button @click="pageUser">用户列表</el-button>
             <el-button @click="deleteUser">删除用户</el-button>
         </div>
         <div>
             <el-button @click="login">登入</el-button>
             <el-button @click="logout">退出登录</el-button>
-            <el-button @click="getUserList">用户列表</el-button>
         </div>
         <div>
             <el-button onclick="document.getElementById('log').innerHTML = ''">Clear Log</el-button>
@@ -72,13 +71,12 @@
                         realName: '22c',
                     })
                 },
-                async list() {
-                    const res = await axios.get('/api/user')
+                async pageUser() {
+                    const res = await axios.post('/api/user/page')
                     this.list = res.data.data.list
                 },
                 // 为了演示，这个删除做得不完整的：(麻烦先赋值给this.list)
                 async deleteUser() {
-                    console.log('list', this.list)
                     this.list.forEach(item => {
                         axios.post('/api/user/delete', {
                             id: item._id
@@ -96,9 +94,6 @@
                     const res = await axios.post('/auth/logout')
                     localStorage.removeItem("token");
                 },
-                async getUserList() {
-                    await axios.get('/api/user')
-                }
             },
             mounted: function () {},
         });
