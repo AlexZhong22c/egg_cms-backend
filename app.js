@@ -3,7 +3,7 @@
  * @param app
  */
 
-class AppBootHook {
+class AppHooks {
   constructor(app) {
       this.app = app;
       app.root_path = __dirname;
@@ -49,5 +49,5 @@ class AppBootHook {
   }
 }
 
-module.exports = AppBootHook;
+module.exports = AppHooks;
 
