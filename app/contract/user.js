@@ -11,6 +11,9 @@ const updateUserReq = {
 const deleteUserReq = {
   id: { type: 'string', description: '用户的ID', example: '1' }
 };
+const detailUserReq = {
+  id: { type: 'string', description: '用户的ID', example: '1' }
+};
 const batchDeleteUserReq = {
   ids: { type: 'array', itemType: 'string', description: '用户的ID数组', example: ['1', '2', '3'] }
 };
@@ -19,5 +22,6 @@ module.exports = {
   addUserReq,
   updateUserReq,
   deleteUserReq,
+  detailUserReq,
   batchDeleteUserReq
 };

@@ -35,9 +35,10 @@ class UserController extends Controller {
   async delete() {
     const { ctx, service } = this
     // 校验参数
-    const { id } = ctx.request.body;
+    ctx.validate(ctx.rule.deleteUserReq)
+    const payload = ctx.request.body || {}
     // 调用 Service 进行业务处理
-    await service.user.delete(id)
+    await service.user.delete(payload.id)
     // 设置响应内容和响应状态码
     ctx.helper.success({ctx})
   }
@@ -61,16 +62,17 @@ class UserController extends Controller {
 
   /**
    * @summary 获取单个用户信息
-   * @router get /api/user/{id}
-   * @request path string *id
+   * @router post /api/user/detail
+   * @request body detailUserReq *body
    * @response 200 baseResponse 操作成功
    */
   async detail() {
     const { ctx, service } = this
     // 组装参数
-    const { id } = ctx.params
+    ctx.validate(ctx.rule.detailUserReq)
+    const payload = ctx.request.body || {}
     // 调用 Service 进行业务处理
-    const res = await service.user.detail(id)
+    const res = await service.user.detail(payload.id)
     // 设置响应内容和响应状态码
     ctx.helper.success({ctx, res})
   }
