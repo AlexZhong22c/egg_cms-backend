@@ -1,4 +1,6 @@
-const moment = require('moment')
-
-// 格式化时间
-exports.formatTime = time => moment(time).format('YYYY-MM-DD HH:mm:ss')
+exports.getUserSession = function() {
+  return this.ctx.session.user;
+}
+exports.setUserSession = function(payload) {
+  return this.ctx.session.user = payload;
+}
