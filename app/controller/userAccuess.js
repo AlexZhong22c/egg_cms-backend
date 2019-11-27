@@ -1,11 +1,8 @@
-// controller/userAccess.js
-'use strict'
-const Controller = require('egg').Controller
+const BaseController = require('./base');
 /**
  * @Controller 用户鉴权
  */
-class UserAccessController extends Controller {
-
+class UserAccessController extends BaseController {
   constructor(ctx) {
     super(ctx)
   }
@@ -13,34 +10,27 @@ class UserAccessController extends Controller {
   /**
    * @summary 用户登入
    * @router post /auth/login
-   * @request body loginRequest *body
+   * @request body loginReq *body
    * @response 200 baseRes 操作成功
    */
   async login() {
     const { ctx, service } = this
-    // 校验参数
-    ctx.validate(ctx.rule.loginRequest);
-    // 组装参数
+    ctx.validate(ctx.rule.loginReq);
     const payload = ctx.request.body || {}
-
-    // 调用 Service 进行业务处理
-    const res = await service.userAccess.login(payload)
-    // 设置响应内容和响应状态码
-    ctx.helper.success({ ctx, res })
+    const data = await service.userAccess.login(payload)
+    this.success({ data })
   }
 
   /**
    * @summary 用户登出
    * @router post /auth/logout
-   * @request body loginRequest *body
+   * @request body logoutReq *body
    * @response 200 baseRes 操作成功
    */
   async logout() {
-    const { ctx, service } = this
-    // 调用 Service 进行业务处理
+    const { service } = this
     await service.userAccess.logout()
-    // 设置响应内容和响应状态码
-    ctx.helper.success({ ctx })
+    this.success()
   }
 }
 

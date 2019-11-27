@@ -1,7 +1,7 @@
 const { Service } = require('egg')
 
 class ActionTokenService extends Service {
-    async apply(_id) {
+    async sign(_id) {
         const { ctx } = this
         return ctx.app.jwt.sign({
             data: {

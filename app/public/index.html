@@ -35,11 +35,12 @@
         <h6 id="log"></h6>
     </div>
     <script>
+        const tokenKey = 'egg-cms-demo-token';
         // axios.defaults.baseURL = 'http://localhost:3000'
         axios.defaults.withCredentials = true
         axios.interceptors.request.use(
             config => {
-                const token = window.localStorage.getItem("token");
+                const token = window.localStorage.getItem(tokenKey);
                 if (token) {
                     // 判断是否存在token，如果存在的话，则每个http header都加上token
                     // Bearer是JWT的认证头部信息
@@ -88,11 +89,11 @@
                         mobile: '15512345678',
                         password: 'Aa111111'
                     })
-                    localStorage.setItem("token", res.data.data.token);
+                    localStorage.setItem(tokenKey, res.data.data.token);
                 },
                 async logout() {
                     const res = await axios.post('/auth/logout')
-                    localStorage.removeItem("token");
+                    localStorage.removeItem(tokenKey);
                 },
             },
             mounted: function () {},

@@ -9,10 +9,10 @@ class UserAccessService extends Service {
         // 求哈希，然后对比：
         let verifyPsw = await ctx.compare(payload.password, user.password)
         if (!verifyPsw) {
-            ctx.throw(404, 'user password is error')
+            ctx.throw(404, 'user password is wrong')
         }
         // 生成Token令牌
-        return { token: await service.actionToken.apply(user._id) }
+        return { token: await service.actionToken.sign(user._id) }
     }
     async logout() {
     }
@@ -26,7 +26,6 @@ class UserAccessService extends Service {
         if (!user) {
             ctx.throw(404, 'user is not found')
         }
-        user.password = 'How old are you?'
         return user
     }
 }
