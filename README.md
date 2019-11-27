@@ -22,6 +22,7 @@
 - [x] 抽象公共的 success response
 - [x] 错误处理中间件拦截error，并记录错误日志
 - [x] AppHooks： 在根目录创建app.js
+- [x] 自动更新createdAt和updatedAt时间戳
 - [ ] 接入EasyMock
 
 ## 路由
