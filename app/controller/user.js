@@ -1,8 +1,8 @@
-const Controller = require('egg').Controller;
+const BaseController = require('./base');
 /**
  * @Controller 用户管理
  */
-class UserController extends Controller {
+class UserController extends BaseController {
   constructor(ctx) {
     super(ctx)
   }
@@ -16,14 +16,10 @@ class UserController extends Controller {
    */
   async add() {
     const { ctx, service } = this
-    // 校验参数
     ctx.validate(ctx.rule.addUserReq)
-    // 组装参数
     const payload = ctx.request.body || {}
-    // 调用 Service 进行业务处理
-    const res = await service.user.add(payload)
-    // 设置响应内容和响应状态码
-    ctx.helper.success({ctx, res})
+    const data = await service.user.add(payload)
+    this.success({data})
   }
 
   /**
@@ -34,13 +30,10 @@ class UserController extends Controller {
    */
   async delete() {
     const { ctx, service } = this
-    // 校验参数
     ctx.validate(ctx.rule.idReq)
     const payload = ctx.request.body || {}
-    // 调用 Service 进行业务处理
     await service.user.delete(payload.id)
-    // 设置响应内容和响应状态码
-    ctx.helper.success({ctx})
+    this.success()
   }
 
   /**
@@ -51,13 +44,10 @@ class UserController extends Controller {
    */
   async update() {
     const { ctx, service } = this
-    // 校验参数
     ctx.validate(ctx.rule.updateUserReq)
     const payload = ctx.request.body || {}
-    // 调用 Service 进行业务处理
     await service.user.update(payload)
-    // 设置响应内容和响应状态码
-    ctx.helper.success({ctx})
+    this.success()
   }
 
   /**
@@ -68,13 +58,10 @@ class UserController extends Controller {
    */
   async detail() {
     const { ctx, service } = this
-    // 组装参数
     ctx.validate(ctx.rule.idReq)
     const payload = ctx.request.body || {}
-    // 调用 Service 进行业务处理
-    const res = await service.user.detail(payload.id)
-    // 设置响应内容和响应状态码
-    ctx.helper.success({ctx, res})
+    const data = await service.user.detail(payload.id)
+    this.success({ data })
   }
 
   
@@ -89,12 +76,9 @@ class UserController extends Controller {
    */
   async index() {
     const { ctx, service } = this
-    // 组装参数
     const payload = ctx.query
-    // 调用 Service 进行业务处理
-    const res = await service.user.index(payload)
-    // 设置响应内容和响应状态码
-    ctx.helper.success({ctx, res})
+    const data = await service.user.index(payload)
+    this.success({ data })
   }
 
   /**
@@ -105,12 +89,9 @@ class UserController extends Controller {
    */
   async batchDelete() {
     const { ctx, service } = this
-    // 组装参数
     const { ids } = ctx.request.body
-    // 调用 Service 进行业务处理
     const result = await service.user.batchDelete(ids)
-    // 设置响应内容和响应状态码
-    ctx.helper.success({ctx})
+    this.success()
   }
 }
 

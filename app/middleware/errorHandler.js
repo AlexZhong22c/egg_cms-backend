@@ -1,3 +1,4 @@
+// TODO: 重构
 module.exports = (option, app) => {
   return async function (ctx, next) {
     try {
