@@ -1,17 +1,26 @@
 # cms_usage-demo
 
-- [x] egg-bcrypt
-  - [x] ctx.genHash
-  - [x] ctx.compare
-- [x] egg-jwt
-  - [x] ctx.app.jwt.sign({ data, exp }, ctx.app.config.jwt.secret)
-- [x] egg-mongoose
-  - [x] ctx.model
-- [x] egg-swagger-doc-feat: 根据jsdoc生成路由，swagger+jsdoc调试开发
-- [x] egg-validate: 根据contract模型校验
-  - [x] ctx.validate(ctx.rule.xxx)
+- [x] **egg-bcrypt**
+  - 混淆密码 对比密码
+  - `ctx.genHash`
+  - `ctx.compare`
+- [x] **egg-jwt**
+  - `ctx.app.jwt.sign({ data, exp }, ctx.app.config.jwt.secret)`
+- [x] **egg-mongoose**
+  - 操作数据库
+  - `ctx.model`
+- [x] **egg-swagger-doc-feat**
+  - 根据jsdoc生成路由，swagger+jsdoc调试开发
+- [x] **egg-validate**
+  - 根据contract模型校验
+  - `ctx.validate(ctx.rule.xxx)`
 
 > 以上`this.ctx`简写为`ctx`。
+
+演示了：
+
+- [x] 抽象公共的 success response
+- [x] 错误处理中间件拦截error，并记录错误日志
 
 ## 路由
 
