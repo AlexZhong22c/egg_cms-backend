@@ -14,7 +14,7 @@ class UserService extends Service {
 
   /**
    * 删除用户
-   * @param {*} _id 
+   * @param {*} id 
    */
   async delete(_id) {
     const { ctx, service } = this
@@ -68,7 +68,7 @@ class UserService extends Service {
    * @param {*} mobile 
    */
   async findByMobile(mobile) {
-    return this.ctx.model.User.findOne({mobile: mobile})
+    return this.ctx.model.User.findOne({ mobile: mobile })
   }
 
   /**

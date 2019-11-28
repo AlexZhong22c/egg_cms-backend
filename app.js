@@ -33,11 +33,13 @@ class AppHooks {
       console.log('========Init Data=========')
       const ctx = await this.app.createAnonymousContext();
       await ctx.model.User.deleteMany();
-      await ctx.service.user.add({
+      const user = await ctx.service.user.add({
           mobile: '15512345678',
           password: 'Aa111111',
           realName: '22c',
       })
+      const printWithColor = (str) => `\x1B[36m${str}\x1B[0m`
+      console.log(printWithColor('testing user id:'), user.id)
   }
 
   async serverDidReady() {

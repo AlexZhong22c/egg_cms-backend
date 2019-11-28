@@ -50,6 +50,7 @@ module.exports = appInfo => {
       useUnifiedTopology: true,
       useNewUrlParser: true,
       useCreateIndex: true,
+      useFindAndModify: true,
 
       autoReconnect: true,
       reconnectTries: Number.MAX_VALUE,
