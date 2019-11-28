@@ -1,5 +1,5 @@
 /* eslint valid-jsdoc: "off" */
-
+const { resDataName } = require('./constant')
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -12,6 +12,9 @@ module.exports = appInfo => {
 
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1574475944897_2235';
+
+  // respond时候的包含主要返回内容的json的key:
+  config.resDataName = resDataName;
 
   // add your middleware config here
   config.middleware = ['errorHandler'];

@@ -36,6 +36,7 @@
     </div>
     <script>
         const tokenKey = 'egg-cms-demo-token';
+        const resDataName = 'result';
         // axios.defaults.baseURL = 'http://localhost:3000'
         axios.defaults.withCredentials = true
         axios.interceptors.request.use(
@@ -74,7 +75,7 @@
                 },
                 async pageUser() {
                     const res = await axios.post('/api/user/page')
-                    this.list = res.data.data.list
+                    this.list = res.data[resDataName].list
                 },
                 // 为了演示，这个删除做得不完整的：(麻烦先赋值给this.list)
                 async deleteUser() {
@@ -89,7 +90,7 @@
                         mobile: '15512345678',
                         password: 'Aa111111'
                     })
-                    localStorage.setItem(tokenKey, res.data.data.token);
+                    localStorage.setItem(tokenKey, res.data[resDataName].token);
                 },
                 async logout() {
                     const res = await axios.post('/auth/logout')
