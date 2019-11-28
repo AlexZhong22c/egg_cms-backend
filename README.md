@@ -41,7 +41,10 @@
 npm i await-stream-ready stream-wormhole image-downloader -s
 ```
 
-【待续】
+## TODO:
+
+- [ ] 校验密码格式；校验邮箱格式
+- [ ] “该用户名已被注册”返回的状态码
 
 ### Development
 

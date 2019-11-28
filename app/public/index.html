@@ -68,9 +68,9 @@
             methods: {
                 async addUser() {
                     await axios.post('/api/user/add', {
-                        mobile: '15512345678',
+                        username: 'cmsAdmin',
                         password: 'Aa111111',
-                        realName: '22c',
+                        email: '12345@163.com',
                     })
                 },
                 async pageUser() {
@@ -87,7 +87,7 @@
                 },
                 async login() {
                     const res = await axios.post('/auth/login', {
-                        mobile: '15512345678',
+                        username: 'cmsAdmin',
                         password: 'Aa111111'
                     })
                     localStorage.setItem(tokenKey, res.data[resDataName].token);

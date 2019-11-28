@@ -32,6 +32,21 @@ class UserAccessController extends BaseController {
     await service.userAccess.logout()
     this.success()
   }
+
+  /**
+   * @summary 注册用户
+   * @description 注册用户，记录用户账户/密码
+   * @router post /auth/signin
+   * @request body signinReq *body
+   * @response 200 baseRes 操作成功
+   */
+  async signin() {
+    const { ctx, service } = this
+    ctx.validate(ctx.rule.signinReq)
+    const payload = ctx.request.body || {}
+    const data = await service.userAccess.signin(payload)
+    this.success({data})
+  }
 }
 
 module.exports = UserAccessController

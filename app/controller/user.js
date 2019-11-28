@@ -9,7 +9,7 @@ class UserController extends BaseController {
 
   /**
    * @summary 创建用户
-   * @description 创建用户，记录用户账户/密码/类型
+   * @description 创建用户，记录用户账户/密码
    * @router post /api/user/add
    * @request body addUserReq *body
    * @response 200 baseRes 操作成功

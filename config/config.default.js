@@ -46,7 +46,7 @@ module.exports = appInfo => {
   }
 
   config.mongoose = {
-    url: 'mongodb://127.0.0.1:27017/egg_cms',
+    url: 'mongodb://127.0.0.1:27017/egg_cms2',
     options: {
       // useMongoClient: true,
       // still use mongoose old api: https://blog.csdn.net/qq_42760049/article/details/98593923

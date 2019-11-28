@@ -3,16 +3,16 @@ const Service = require('egg').Service
 class UserService extends Service {
   
   /**
-   * 创建用户
+   * 创建用户(目前和注册账号的逻辑是一样的)
    * @param {*} payload 
    */
   async add(payload) {
     const { ctx } = this
 
-    const user = await this.findByMobile(payload.mobile)
+    const user = await this.findByUsername(payload.username)
     if (user) {
       // 可以比400更加准确???????
-      ctx.throw(400, '该手机号码已被注册')
+      ctx.throw(400, '该用户名已被注册')
     }
     payload.password = await this.ctx.genHash(payload.password)
     return ctx.model.User.create(payload)
@@ -72,11 +72,11 @@ class UserService extends Service {
   }
 
   /**
-   * 根据手机号查找
-   * @param {*} mobile 
+   * 根据用户名查找
+   * @param {*} username 
    */
-  async findByMobile(mobile) {
-    return this.ctx.model.User.findOne({ mobile })
+  async findByUsername(username) {
+    return this.ctx.model.User.findOne({ username })
   }
 
   /**

@@ -2,19 +2,37 @@ const { Service } = require('egg')
 class UserAccessService extends Service {
     async login(payload) {
         const { ctx, service } = this
-        const user = await service.user.findByMobile(payload.mobile) 
+        const user = await this.findByUsername(payload.username) 
         if (!user) {
             ctx.throw(404, 'user not found')
         }
         // 求哈希，然后对比：
         let verifyPsw = await ctx.compare(payload.password, user.password)
         if (!verifyPsw) {
+            // FIXME: 修改状态码：
             ctx.throw(404, 'user password is wrong')
         }
         // 生成Token令牌
         return { token: await service.actionToken.sign(user.id) }
     }
+
+    // 前端清一下token就行了??????????
     async logout() {
+    }
+    /**
+     * 注册用户(目前和创建用户的逻辑是一样的)
+     * @param {*} payload 
+     */
+    async signin(payload) {
+        const { ctx } = this
+
+        const user = await this.findByUsername(payload.username)
+        if (user) {
+            // 可以比400更加准确???????
+            ctx.throw(400, '该用户名已被注册')
+        }
+        payload.password = await this.ctx.genHash(payload.password)
+        return ctx.model.User.create(payload)
     }
 
     // 当前用户信息：
@@ -27,6 +45,14 @@ class UserAccessService extends Service {
             ctx.throw(404, 'user is not found')
         }
         return user
+    }
+
+    /**
+     * 根据用户名查找
+     * @param {*} username 
+     */
+    async findByUsername(username) {
+        return this.ctx.model.User.findOne({ username })
     }
 }
 
