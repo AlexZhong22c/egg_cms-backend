@@ -7,7 +7,13 @@ class UserService extends Service {
    * @param {*} payload 
    */
   async add(payload) {
-    const { ctx, service } = this
+    const { ctx } = this
+
+    const user = await this.findByMobile(payload.mobile)
+    if (user) {
+      // 可以比400更加准确???????
+      ctx.throw(400, '该手机号码已被注册')
+    }
     payload.password = await this.ctx.genHash(payload.password)
     return ctx.model.User.create(payload)
   }
@@ -16,13 +22,16 @@ class UserService extends Service {
    * 删除用户
    * @param {*} id 
    */
-  async delete(_id) {
-    const { ctx, service } = this
-    const user = await ctx.service.user.find(_id)
+  async delete(id) {
+    const { ctx } = this
+
+    // 显示错误更加合理：
+    const user = await this.findById(id)
     if (!user) {
       ctx.throw(404, 'user not found')
     }
-    return ctx.model.User.findByIdAndRemove(_id)
+
+    return ctx.model.User.findByIdAndRemove(id)
   }
 
   /**
@@ -30,29 +39,28 @@ class UserService extends Service {
    * @param {*} payload 
    */
   async update(payload) {
-    const { ctx, service } = this
-    const { id: _id, ...rest } = payload;
-    const user = await ctx.service.user.find(_id)
+    const { ctx } = this
+    const { id, ...rest } = payload;
+    const user = await this.findById(id)
     if (!user) {
       ctx.throw(404, 'user not found')
     }
-    return ctx.model.User.findByIdAndUpdate(_id, rest)
+    return this.findByIdAndUpdate(id, rest)
   }
 
   /**
    * 查看单个用户
    */
-  async detail(_id) {
-    const user = await this.ctx.service.user.find(_id)
+  async detail(id) {
+    const user = await this.findById(id)
     if (!user) {
       this.ctx.throw(404, 'user not found')
     }
-    return this.ctx.model.User.findById(_id).populate('role')
+    return user
   }
 
   async page(payload) {
-    const { id: _id, ...rest } = payload;
-    return await this.ctx.helper.page({ modelName: 'User', _id, ...rest})
+    return await this.ctx.helper.page('User', payload)
   }
   
   /**
@@ -68,14 +76,14 @@ class UserService extends Service {
    * @param {*} mobile 
    */
   async findByMobile(mobile) {
-    return this.ctx.model.User.findOne({ mobile: mobile })
+    return this.ctx.model.User.findOne({ mobile })
   }
 
   /**
    * 查找用户
    * @param {*} id 
    */
-  async find(id) {
+  async findById(id) {
     return this.ctx.model.User.findById(id)
   }
 

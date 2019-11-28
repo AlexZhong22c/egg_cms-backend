@@ -23,6 +23,8 @@
 - [x] 错误处理中间件拦截error，并记录错误日志
 - [x] AppHooks： 在根目录创建app.js
 - [x] 自动更新createdAt和updatedAt时间戳
+- [x] 封装 获取分页 和 获取列表 接口
+- [x] 用`id`代替`_id`返回给client
 - [ ] 接入EasyMock
 
 ## 路由

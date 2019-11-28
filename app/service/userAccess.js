@@ -12,7 +12,7 @@ class UserAccessService extends Service {
             ctx.throw(404, 'user password is wrong')
         }
         // 生成Token令牌
-        return { token: await service.actionToken.sign(user._id) }
+        return { token: await service.actionToken.sign(user.id) }
     }
     async logout() {
     }
@@ -21,8 +21,8 @@ class UserAccessService extends Service {
     async current() {
         const { ctx, service } = this
         // ctx.state.user 可以提取到JWT编码的data
-        const _id = ctx.state.user.data._id
-        const user = await service.user.find(_id)
+        const id = ctx.state.user.data.id
+        const user = await service.user.findById(id)
         if (!user) {
             ctx.throw(404, 'user is not found')
         }

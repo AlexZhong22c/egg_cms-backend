@@ -80,7 +80,7 @@
                 async deleteUser() {
                     this.list.forEach(item => {
                         axios.post('/api/user/delete', {
-                            id: item._id
+                            id: item.id
                         })
                     })
                 },
