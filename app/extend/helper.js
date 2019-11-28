@@ -5,7 +5,7 @@ exports.setUserSession = function(payload) {
   return this.ctx.session.user = payload;
 }
 
-exports.page = async function({ modelName, fields = [], populateFields = [], currentPage = 1, pageSize = 5 }) {
+exports.page = async function(modelName, { fields = [], populateFields = [], currentPage = 1, pageSize = 5 } = {}) {
   if (!modelName) throw Error('请传入modelName');
 
   currentPage = isNaN(currentPage) ? 1 : parseInt(currentPage, 10)
@@ -21,7 +21,7 @@ exports.page = async function({ modelName, fields = [], populateFields = [], cur
   for (const pfItem of populateFields) {
     pointer = pointer.populate(pfItem)
   }
-  const total = await this.ctx.model[modelName].count({})
+  const total = await this.ctx.model[modelName].countDocuments(query)
 
   return {
     currentPage,
@@ -31,7 +31,7 @@ exports.page = async function({ modelName, fields = [], populateFields = [], cur
   }
 }
 
-exports.list = async function ({ modelName, fields = [], populateFields = []}) {
+exports.list = async function (modelName, { fields = [], populateFields = []} = {}) {
   if (!modelName) throw Error('请传入modelName');
 
   let query = {}
