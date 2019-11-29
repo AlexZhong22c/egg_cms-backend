@@ -1,4 +1,4 @@
-exports.page = async function(modelName, { fields = [], populateFields = [], currentPage = 1, pageSize = 5 } = {}) {
+async function page(modelName, { fields = [], populateFields = [], currentPage = 1, pageSize = 5 } = {}) {
   if (!modelName) throw Error('请传入modelName');
 
   currentPage = isNaN(currentPage) ? 1 : parseInt(currentPage, 10)
@@ -24,7 +24,7 @@ exports.page = async function(modelName, { fields = [], populateFields = [], cur
   }
 }
 
-exports.list = async function (modelName, { fields = [], populateFields = []} = {}) {
+async function list(modelName, { fields = [], populateFields = []} = {}) {
   if (!modelName) throw Error('请传入modelName');
 
   let query = {}
@@ -37,5 +37,15 @@ exports.list = async function (modelName, { fields = [], populateFields = []} = 
   }
   return {
     list: await pointer
+  }
+}
+
+module.exports = {
+  // 作为针对this指向的适配器；并且作为命名空间：
+  get model() {
+    return {
+      page: page.bind(this),
+      list: list.bind(this)
+    }
   }
 }
