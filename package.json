@@ -1,5 +1,5 @@
 {
-  "name": "cms_usage-demo",
+  "name": "egg_cms-backend",
   "version": "1.0.0",
   "description": "",
   "private": true,
@@ -31,8 +31,8 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-cms_usage-demo",
-    "stop": "egg-scripts stop --title=egg-server-cms_usage-demo",
+    "start": "egg-scripts start --daemon --title=egg_cms-backend",
+    "stop": "egg-scripts stop --title=egg_cms-backend",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",
