@@ -1,10 +1,3 @@
-exports.getUserSession = function() {
-  return this.ctx.session.user;
-}
-exports.setUserSession = function(payload) {
-  return this.ctx.session.user = payload;
-}
-
 exports.page = async function(modelName, { fields = [], populateFields = [], currentPage = 1, pageSize = 5 } = {}) {
   if (!modelName) throw Error('请传入modelName');
 
