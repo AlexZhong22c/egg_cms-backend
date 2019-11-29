@@ -45,12 +45,12 @@ class UserService extends Service {
    */
   async update(payload) {
     const { ctx } = this
-    const { id, ...rest } = payload;
+    const { id } = payload;
     const doc = await this.findById(id)
     if (!doc) {
       ctx.throw(404, cantFindText)
     }
-    return this.findByIdAndUpdate(id, rest)
+    return this.findByIdAndUpdate(id, payload)
   }
 
   /**
@@ -80,11 +80,11 @@ class UserService extends Service {
   /**
    * 方便调用，简化书写：
    */
-  async findById(id) {
-    return this.ctx.model[User].findById(id)
+  async findById(...args) {
+    return this.ctx.model[User].findById(...args)
   }
-  async findByIdAndUpdate(id, rest) {
-    return this.ctx.model[User].findByIdAndUpdate(id, rest)
+  async findByIdAndUpdate(...args) {
+    return this.ctx.model[User].findByIdAndUpdate(...args)
   }
   async findByUsername(username) {
     return this.ctx.model[User].findOne({ username })

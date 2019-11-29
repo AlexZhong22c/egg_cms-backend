@@ -18,11 +18,11 @@ class ArticleService extends Service {
   /**
    * 方便调用，简化书写：
    */
-  async findById(id) {
-    return this.ctx.model[Article].findById(id)
+  async findById(...args) {
+    return this.ctx.model[Article].findById(...args)
   }
-  async findByIdAndUpdate(id, rest) {
-    return this.ctx.model[Article].findByIdAndUpdate(id, rest)
+  async findByIdAndUpdate(...args) {
+    return this.ctx.model[Article].findByIdAndUpdate(...args)
   }
   async findByName(name) {
     return this.ctx.model[Article].findOne({ name })
