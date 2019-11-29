@@ -1,5 +1,10 @@
 const Service = require('egg').Service
 
+// 抽出容易变化的部分：
+const User = 'User';
+const cantFindText = '用户不存在';
+const hasExistText = '该用户名已被注册';
+
 class UserService extends Service {
   
   /**
@@ -12,10 +17,10 @@ class UserService extends Service {
     const doc = await this.findByUsername(payload.username)
     if (doc) {
       // 可以比400更加准确???????
-      ctx.throw(400, '该用户名已被注册')
+      ctx.throw(400, hasExistText)
     }
     payload.password = await this.ctx.genHash(payload.password)
-    return ctx.model.User.create(payload)
+    return ctx.model[User].create(payload)
   }
 
   /**
@@ -28,10 +33,10 @@ class UserService extends Service {
     // 显示错误更加合理：
     const doc = await this.findById(id)
     if (!doc) {
-      ctx.throw(404, 'user not found')
+      ctx.throw(404, cantFindText)
     }
 
-    return ctx.model.User.findByIdAndRemove(id)
+    return ctx.model[User].findByIdAndRemove(id)
   }
 
   /**
@@ -43,7 +48,7 @@ class UserService extends Service {
     const { id, ...rest } = payload;
     const doc = await this.findById(id)
     if (!doc) {
-      ctx.throw(404, 'user not found')
+      ctx.throw(404, cantFindText)
     }
     return this.findByIdAndUpdate(id, rest)
   }
@@ -54,13 +59,13 @@ class UserService extends Service {
   async detail(id) {
     const doc = await this.findById(id)
     if (!doc) {
-      this.ctx.throw(404, 'user not found')
+      this.ctx.throw(404, cantFindText)
     }
     return doc
   }
 
   async page(payload) {
-    return await this.ctx.helper.model.page('User', payload)
+    return await this.ctx.helper.model.page(User, payload)
   }
   
   /**
@@ -68,32 +73,22 @@ class UserService extends Service {
    * @param {*} payload 
    */
   async batchDelete(payload) {
-    return this.ctx.model.User.deleteMany({ _id: { $in: payload } })
+    return this.ctx.model[User].deleteMany({ _id: { $in: payload } })
   }
 
-  /**
-   * 根据用户名查找
-   * @param {*} username 
-   */
-  async findByUsername(username) {
-    return this.ctx.model.User.findOne({ username })
-  }
 
   /**
-   * @param {*} id 
+   * 方便调用，简化书写：
    */
   async findById(id) {
-    return this.ctx.model.User.findById(id)
+    return this.ctx.model[User].findById(id)
   }
-
-  /**
-   * @param {*} id 
-   * @param {*} rest 
-   */
   async findByIdAndUpdate(id, rest) {
-    return this.ctx.model.User.findByIdAndUpdate(id, rest)
+    return this.ctx.model[User].findByIdAndUpdate(id, rest)
   }
-
+  async findByUsername(username) {
+    return this.ctx.model[User].findOne({ username })
+  }
 }
 
 

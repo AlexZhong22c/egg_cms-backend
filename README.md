@@ -45,6 +45,7 @@ npm i await-stream-ready stream-wormhole image-downloader -s
 
 - [ ] 校验密码格式；校验邮箱格式
 - [ ] “该用户名已被注册”返回的状态码
+- [ ] 修改密码或者重置密码没有独立出接口出来
 
 ### Development
 
