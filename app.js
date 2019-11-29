@@ -32,13 +32,19 @@ class AppHooks {
       // don't need to block the app boot.
       console.log('========Init Data=========')
       const ctx = await this.app.createAnonymousContext();
+      await ctx.model.Article.deleteMany();
+      await ctx.model.Category.deleteMany();
       await ctx.model.User.deleteMany();
+      const category = await ctx.service.category.add({
+          name: '学习类'
+      })
       const user = await ctx.service.user.add({
           username: 'cmsAdmin',
           password: 'Aa111111',
           email: '12345@163.com',
       })
       const printWithColor = (str) => `\x1B[36m${str}\x1B[0m`
+      console.log(printWithColor('testing category id:'), category.id)
       console.log(printWithColor('testing user id:'), user.id)
   }
 
