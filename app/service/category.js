@@ -21,10 +21,6 @@ class CategoryService extends Service {
     return ctx.model[Category].create(payload)
   }
 
-  /**
-   * 删除用户
-   * @param {*} id 
-   */
   async delete(id) {
     const { ctx } = this
 
