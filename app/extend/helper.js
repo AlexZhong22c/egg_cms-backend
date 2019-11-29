@@ -24,7 +24,7 @@ async function page(modelName, { fields = [], populateFields = [], currentPage =
   }
 }
 
-async function list(modelName, { fields = [], populateFields = []} = {}) {
+async function list(modelName, { fields = [], populateFields = [] } = {}) {
   if (!modelName) throw Error('请传入modelName');
 
   let query = {}

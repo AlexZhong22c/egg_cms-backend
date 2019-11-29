@@ -37,10 +37,6 @@ class CategoryService extends Service {
     return ctx.model[Category].findByIdAndRemove(id)
   }
 
-  /**
-   * 修改用户
-   * @param {*} payload 
-   */
   async update(payload) {
     const { ctx } = this
     const { id, ...rest } = payload;
@@ -49,6 +45,9 @@ class CategoryService extends Service {
       ctx.throw(404, cantFindText)
     }
     return this.findByIdAndUpdate(id, rest)
+  }
+  async list(payload) {
+    return await this.ctx.helper.model.list(Category, payload)
   }
 
   async batchDelete(payload) {

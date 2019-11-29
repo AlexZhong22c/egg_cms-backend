@@ -50,6 +50,19 @@ class CategoryController extends BaseController {
   }
 
   /**
+   * @summary 获取分类列表
+   * @router post /api/category/list
+   * @request body listCategoryReq *body
+   * @response 200 baseRes 操作成功
+   */
+  async list() {
+    const { ctx, service } = this
+    ctx.validate(ctx.rule.listCategoryReq)
+    const data = await service.category.list(ctx.request.body)
+    this.success({ data })
+  }
+
+  /**
    * @summary 删除所选分类
    * @router post /api/category/batch/delete
    * @request body batchDeleteCategoryReq *body

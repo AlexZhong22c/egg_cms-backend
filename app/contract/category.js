@@ -8,9 +8,13 @@ const updateCategoryReq = {
 const batchDeleteCategoryReq = {
   ids: { type: 'array', itemType: 'string', description: 'ID数组', example: ['1', '2', '3'] }
 };
-
+const listCategoryReq = {
+  fields: { type: 'array', itemType: 'object', required: false, example: [] },
+  populateFields: { type: 'array', itemType: 'string', required: false, example: [] }
+};
 module.exports = {
   addCategoryReq,
   updateCategoryReq,
-  batchDeleteCategoryReq
+  batchDeleteCategoryReq,
+  listCategoryReq
 };
