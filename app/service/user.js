@@ -9,8 +9,8 @@ class UserService extends Service {
   async add(payload) {
     const { ctx } = this
 
-    const user = await this.findByUsername(payload.username)
-    if (user) {
+    const doc = await this.findByUsername(payload.username)
+    if (doc) {
       // 可以比400更加准确???????
       ctx.throw(400, '该用户名已被注册')
     }
@@ -26,8 +26,8 @@ class UserService extends Service {
     const { ctx } = this
 
     // 显示错误更加合理：
-    const user = await this.findById(id)
-    if (!user) {
+    const doc = await this.findById(id)
+    if (!doc) {
       ctx.throw(404, 'user not found')
     }
 
@@ -41,8 +41,8 @@ class UserService extends Service {
   async update(payload) {
     const { ctx } = this
     const { id, ...rest } = payload;
-    const user = await this.findById(id)
-    if (!user) {
+    const doc = await this.findById(id)
+    if (!doc) {
       ctx.throw(404, 'user not found')
     }
     return this.findByIdAndUpdate(id, rest)
@@ -52,11 +52,11 @@ class UserService extends Service {
    * 查看单个用户
    */
   async detail(id) {
-    const user = await this.findById(id)
-    if (!user) {
+    const doc = await this.findById(id)
+    if (!doc) {
       this.ctx.throw(404, 'user not found')
     }
-    return user
+    return doc
   }
 
   async page(payload) {
@@ -80,7 +80,6 @@ class UserService extends Service {
   }
 
   /**
-   * 查找用户
    * @param {*} id 
    */
   async findById(id) {
@@ -88,12 +87,11 @@ class UserService extends Service {
   }
 
   /**
-   * 更新用户信息
    * @param {*} id 
-   * @param {*} values 
+   * @param {*} rest 
    */
-  async findByIdAndUpdate(id, values) {
-    return this.ctx.model.User.findByIdAndUpdate(id, values)
+  async findByIdAndUpdate(id, rest) {
+    return this.ctx.model.User.findByIdAndUpdate(id, rest)
   }
 
 }
