@@ -61,9 +61,21 @@ module.exports = appInfo => {
     },
   }
 
+  // 默认是不能跨域的。现在用了一个egg插件egg-cors跨域，在正式上线的时候会去掉允许跨域。
+  // 前端的axios也是给一个config：`withCredentials: true`
+  config.security = {
+    csrf: false,
+    // 这个其实就是控制allow origin那些header:
+    domainWhiteList: ['http://localhost:8000']
+  }
+  config.cors = {
+    // 允许浏览器跨域发cookie
+    credentials: true
+  }
+
   config.jwt = {
     secret: 'you_guess',
-    // FIXME: 调试的时候先把它关了：
+    // FIXME: 调试的时候先临时把它关了：
     enable: true, // default is false
     match: /^\/api/, // optional
   }
