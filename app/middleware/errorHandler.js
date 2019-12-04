@@ -5,7 +5,7 @@
  * 422: 报文的格式有问题。
  * @field err.status
  * @field err.message
- * 调用： ctx.throw(status, message)
+ * 在内层中触发try catch： ctx.throw(status, message)
  */
 module.exports = (option, app) => {
   return async function (ctx, next) {

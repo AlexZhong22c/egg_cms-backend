@@ -15,8 +15,7 @@ class CategoryService extends Service {
 
     const doc = await this.findByName(payload.name)
     if (doc) {
-      // 可以比400更加准确???????
-      ctx.throw(400, hasExistText)
+      ctx.throw(409, hasExistText)
     }
     return ctx.model[Category].create(payload)
   }

@@ -16,8 +16,7 @@ class UserService extends Service {
 
     const doc = await this.findByUsername(payload.username)
     if (doc) {
-      // 可以比400更加准确???????
-      ctx.throw(400, hasExistText)
+      ctx.throw(409, hasExistText)
     }
     payload.password = await this.ctx.genHash(payload.password)
     return ctx.model[User].create(payload)

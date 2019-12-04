@@ -1,10 +1,14 @@
 const { Service } = require('egg')
+
+const cantFindText = '用户不存在';
+const hasExistText = '该用户名已被注册';
+
 class UserAccessService extends Service {
     async login(payload) {
         const { ctx, service } = this
         const user = await this.findByUsername(payload.username) 
         if (!user) {
-            ctx.throw(404, 'user not found')
+            ctx.throw(404, cantFindText)
         }
         // 求哈希，然后对比：
         let verifyPsw = await ctx.compare(payload.password, user.password)
@@ -28,8 +32,7 @@ class UserAccessService extends Service {
 
         const user = await this.findByUsername(payload.username)
         if (user) {
-            // 可以比400更加准确???????
-            ctx.throw(400, '该用户名已被注册')
+            ctx.throw(409, hasExistText)
         }
         payload.password = await this.ctx.genHash(payload.password)
         return ctx.model.User.create(payload)
@@ -42,7 +45,7 @@ class UserAccessService extends Service {
         const id = ctx.state.user.data.id
         const user = await service.user.findById(id)
         if (!user) {
-            ctx.throw(404, 'user is not found')
+            ctx.throw(404, cantFindText)
         }
         return user
     }
