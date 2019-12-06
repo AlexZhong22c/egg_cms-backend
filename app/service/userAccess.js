@@ -38,17 +38,17 @@ class UserAccessService extends Service {
         return ctx.model.User.create(payload)
     }
 
-    // 当前用户信息：
-    async current() {
-        const { ctx, service } = this
-        // ctx.state.user 可以提取到JWT编码的data
-        const id = ctx.state.user.data.id
-        const doc = await service.user.findById(id)
-        if (!doc) {
-            ctx.throw(404, cantFindText)
-        }
-        return doc
-    }
+    // 当前用户信息：（不用实现）
+    // async current() {
+    //     const { ctx, service } = this
+    //     // ctx.state.user 可以提取到JWT编码的data
+    //     // const id = ctx.state.user.data.id
+    //     const doc = await service.user.findById(id)
+    //     if (!doc) {
+    //         ctx.throw(404, cantFindText)
+    //     }
+    //     return doc
+    // }
 
     /**
      * 根据用户名查找
