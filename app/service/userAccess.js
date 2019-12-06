@@ -6,18 +6,18 @@ const hasExistText = '该用户名已被注册';
 class UserAccessService extends Service {
     async login(payload) {
         const { ctx, service } = this
-        const user = await this.findByUsername(payload.username) 
-        if (!user) {
-            ctx.throw(404, cantFindText)
+        const doc = await this.findByUsername(payload.username) 
+        if (!doc) {
+            // 提高安全性：
+            ctx.throw(401, '用户名或密码错误')
         }
         // 求哈希，然后对比：
-        let verifyPsw = await ctx.compare(payload.password, user.password)
+        let verifyPsw = await ctx.compare(payload.password, doc.password)
         if (!verifyPsw) {
-            // FIXME: 修改状态码：
-            ctx.throw(404, 'user password is wrong')
+            ctx.throw(401, '用户名或密码错误')
         }
         // 生成Token令牌
-        return { token: await service.actionToken.sign(user.id) }
+        return { token: await service.actionToken.sign(doc.id) }
     }
 
     // 前端清一下token就行了??????????
@@ -30,8 +30,8 @@ class UserAccessService extends Service {
     async signin(payload) {
         const { ctx } = this
 
-        const user = await this.findByUsername(payload.username)
-        if (user) {
+        const doc = await this.findByUsername(payload.username)
+        if (doc) {
             ctx.throw(409, hasExistText)
         }
         payload.password = await this.ctx.genHash(payload.password)
@@ -43,11 +43,11 @@ class UserAccessService extends Service {
         const { ctx, service } = this
         // ctx.state.user 可以提取到JWT编码的data
         const id = ctx.state.user.data.id
-        const user = await service.user.findById(id)
-        if (!user) {
+        const doc = await service.user.findById(id)
+        if (!doc) {
             ctx.throw(404, cantFindText)
         }
-        return user
+        return doc
     }
 
     /**
