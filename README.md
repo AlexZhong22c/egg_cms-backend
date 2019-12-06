@@ -14,6 +14,8 @@
 - [x] **egg-validate**
   - 根据contract模型校验
   - `ctx.validate(ctx.rule.xxx)`
+- [x] **egg-cors**
+  - 允许跨域(安全问题依照具体项目来优化)
 
 > 以上`this.ctx`简写为`ctx`。
 
@@ -25,7 +27,6 @@
 - [x] 自动更新createdAt和updatedAt时间戳
 - [x] 封装 获取分页 和 获取列表 接口
 - [x] 用`id`代替`_id`返回给client
-- [x] egg-cors允许跨域
 - [ ] 接入EasyMock
 
 ## 路由
