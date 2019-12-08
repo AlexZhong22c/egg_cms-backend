@@ -23,15 +23,15 @@ class ArticleController extends BaseController {
 
   /**
    * @summary 删除单个文章
-   * @router post /api/article/delete
+   * @router post /api/article/del
    * @request body idReq *body
    * @response 200 baseRes 操作成功
    */
-  async delete() {
+  async del() {
     const { ctx, service } = this
     ctx.validate(ctx.rule.idReq)
     const payload = ctx.request.body || {}
-    await service.article.delete(payload.id)
+    await service.article.del(payload.id)
     this.success()
   }
 
@@ -64,14 +64,14 @@ class ArticleController extends BaseController {
 
   /**
    * @summary 删除所选文章
-   * @router post /api/article/batch/delete
-   * @request body batchDeleteArticleReq *body
+   * @router post /api/article/batch/del
+   * @request body batchDelArticleReq *body
    * @response 200 baseRes 操作成功
    */
-  async batchDelete() {
+  async batchDel() {
     const { ctx, service } = this
     const { ids } = ctx.request.body
-    await service.article.batchDelete(ids)
+    await service.article.batchDel(ids)
     this.success()
   }
 }

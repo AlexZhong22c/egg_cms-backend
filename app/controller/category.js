@@ -23,15 +23,15 @@ class CategoryController extends BaseController {
 
   /**
    * @summary 删除单个分类
-   * @router post /api/category/delete
+   * @router post /api/category/del
    * @request body idReq *body
    * @response 200 baseRes 操作成功
    */
-  async delete() {
+  async del() {
     const { ctx, service } = this
     ctx.validate(ctx.rule.idReq)
     const payload = ctx.request.body || {}
-    await service.category.delete(payload.id)
+    await service.category.del(payload.id)
     this.success()
   }
 
@@ -64,14 +64,14 @@ class CategoryController extends BaseController {
 
   /**
    * @summary 删除所选分类
-   * @router post /api/category/batch/delete
-   * @request body batchDeleteCategoryReq *body
+   * @router post /api/category/batch/del
+   * @request body batchDelCategoryReq *body
    * @response 200 baseRes 操作成功
    */
-  async batchDelete() {
+  async batchDel() {
     const { ctx, service } = this
     const { ids } = ctx.request.body
-    await service.category.batchDelete(ids)
+    await service.category.batchDel(ids)
     this.success()
   }
 }

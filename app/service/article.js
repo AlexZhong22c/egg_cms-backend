@@ -24,7 +24,7 @@ class ArticleService extends Service {
     return this.findByIdAndUpdate(id, payload)
   }
 
-  async delete(id) {
+  async del(id) {
     const { ctx } = this
 
     const doc = await this.findById(id)
@@ -35,7 +35,7 @@ class ArticleService extends Service {
     return ctx.model[Article].findByIdAndRemove(id)
   }
 
-  async batchDelete(payload) {
+  async batchDel(payload) {
     return this.ctx.model[Article].deleteMany({ _id: { $in: payload } })
   }
 

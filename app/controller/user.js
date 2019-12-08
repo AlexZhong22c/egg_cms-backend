@@ -24,15 +24,15 @@ class UserController extends BaseController {
 
   /**
    * @summary 删除单个用户
-   * @router post /api/user/delete
+   * @router post /api/user/del
    * @request body idReq *body
    * @response 200 baseRes 操作成功
    */
-  async delete() {
+  async del() {
     const { ctx, service } = this
     ctx.validate(ctx.rule.idReq)
     const payload = ctx.request.body || {}
-    await service.user.delete(payload.id)
+    await service.user.del(payload.id)
     this.success()
   }
 
@@ -80,14 +80,14 @@ class UserController extends BaseController {
 
   /**
    * @summary 删除所选用户
-   * @router post /api/user/batch/delete
-   * @request body batchDeleteUserReq *body
+   * @router post /api/user/batch/del
+   * @request body batchDelUserReq *body
    * @response 200 baseRes 操作成功
    */
-  async batchDelete() {
+  async batchDel() {
     const { ctx, service } = this
     const { ids } = ctx.request.body
-    const result = await service.user.batchDelete(ids)
+    const result = await service.user.batchDel(ids)
     this.success()
   }
 }

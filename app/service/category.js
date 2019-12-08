@@ -20,7 +20,7 @@ class CategoryService extends Service {
     return ctx.model[Category].create(payload)
   }
 
-  async delete(id) {
+  async del(id) {
     const { ctx } = this
 
     // 显示错误更加合理：
@@ -45,7 +45,7 @@ class CategoryService extends Service {
     return await this.ctx.helper.model.list(Category, payload)
   }
 
-  async batchDelete(payload) {
+  async batchDel(payload) {
     return this.ctx.model[Category].deleteMany({ _id: { $in: payload } })
   }
 

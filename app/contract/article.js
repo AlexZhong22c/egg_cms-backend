@@ -13,7 +13,7 @@ const updateArticleReq = {
   author: { type: 'string', description: '作者id', example: '1' },
   category: { type: 'string', description: '分类id', example: '2' }
 };
-const batchDeleteArticleReq = {
+const batchDelArticleReq = {
   ids: { type: 'array', itemType: 'string', description: 'ID数组', example: ['1', '2', '3'] }
 };
 const listArticleReq = {
@@ -23,6 +23,6 @@ const listArticleReq = {
 module.exports = {
   addArticleReq,
   updateArticleReq,
-  batchDeleteArticleReq,
+  batchDelArticleReq,
   listArticleReq
 };

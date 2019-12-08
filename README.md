@@ -27,6 +27,7 @@
 - [x] 自动更新createdAt和updatedAt时间戳
 - [x] 封装 获取分页 和 获取列表 接口
 - [x] 用`id`代替`_id`返回给client
+- [x] 变量名不要包含`delete`，免得解构到了哪一层和js关键字`delete`重名
 - [ ] 接入EasyMock
 
 ## 路由

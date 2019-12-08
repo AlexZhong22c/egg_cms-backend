@@ -26,7 +26,7 @@ class UserService extends Service {
    * 删除用户
    * @param {*} id 
    */
-  async delete(id) {
+  async del(id) {
     const { ctx } = this
 
     // 显示错误更加合理：
@@ -71,7 +71,7 @@ class UserService extends Service {
    * 删除多个用户
    * @param {*} payload 
    */
-  async batchDelete(payload) {
+  async batchDel(payload) {
     return this.ctx.model[User].deleteMany({ _id: { $in: payload } })
   }
 
