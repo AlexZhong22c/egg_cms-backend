@@ -8,19 +8,8 @@ const updateUserReq = {
   password: { type: 'string', required: false, description: '密码', example: 'Aa111111' },
   email: { type: 'string', required: false, description: '邮箱', example: '12345@163.com' },
 };
-const batchDelUserReq = {
-  ids: { type: 'array', itemType: 'string', description: 'ID数组', example: ['1', '2', '3'] }
-};
-const pageUserReq = {
-  currentPage: { type: 'integer', required: false, example: 1 },
-  pageSize: { type: 'integer', required: false ,example: 5 },
-  fields: { type: 'array', itemType: 'object', required: false, example: [] },
-  populateFields: { type: 'array', itemType: 'string', required: false, example: [] }
-};
 
 module.exports = {
   addUserReq,
-  updateUserReq,
-  batchDelUserReq,
-  pageUserReq
+  updateUserReq
 };

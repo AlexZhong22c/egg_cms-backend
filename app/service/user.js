@@ -63,6 +63,9 @@ class UserService extends Service {
     return doc
   }
 
+  async list(payload) {
+    return await this.ctx.helper.model.list(User, payload)
+  }
   async page(payload) {
     return await this.ctx.helper.model.page(User, payload)
   }

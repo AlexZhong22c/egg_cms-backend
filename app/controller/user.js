@@ -64,16 +64,28 @@ class UserController extends BaseController {
     this.success({ data })
   }
 
-  
+  /**
+   * @summary 获取用户列表
+   * @router post /api/user/list
+   * @request body listBaseReq *body
+   * @response 200 baseRes 操作成功
+   */
+  async list() {
+    const { ctx, service } = this
+    ctx.validate(ctx.rule.listBaseReq)
+    const data = await service.user.list(ctx.request.body)
+    this.success({ data })
+  }
+
   /**
    * @summary 获取用户列表(分页)
    * @router post /api/user/page
-   * @request body pageUserReq *body
+   * @request body pageBaseReq *body
    * @response 200 baseRes 操作成功
    */
   async page() {
     const { ctx, service } = this
-    ctx.validate(ctx.rule.pageUserReq)
+    ctx.validate(ctx.rule.pageBaseReq)
     const data = await service.user.page(ctx.request.body)
     this.success({ data })
   }
@@ -81,11 +93,12 @@ class UserController extends BaseController {
   /**
    * @summary 删除所选用户
    * @router post /api/user/batch/del
-   * @request body batchDelUserReq *body
+   * @request body batchDelBaseReq *body
    * @response 200 baseRes 操作成功
    */
   async batchDel() {
     const { ctx, service } = this
+    ctx.validate(ctx.rule.batchDelBaseReq)
     const { ids } = ctx.request.body
     const result = await service.user.batchDel(ids)
     this.success()

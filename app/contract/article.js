@@ -13,16 +13,8 @@ const updateArticleReq = {
   author: { type: 'string', description: '作者id', example: '1' },
   category: { type: 'string', description: '分类id', example: '2' }
 };
-const batchDelArticleReq = {
-  ids: { type: 'array', itemType: 'string', description: 'ID数组', example: ['1', '2', '3'] }
-};
-const listArticleReq = {
-  fields: { type: 'array', itemType: 'object', required: false, example: [] },
-  populateFields: { type: 'array', itemType: 'string', required: false, example: [] }
-};
+
 module.exports = {
   addArticleReq,
-  updateArticleReq,
-  batchDelArticleReq,
-  listArticleReq
+  updateArticleReq
 };

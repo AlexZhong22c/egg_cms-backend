@@ -44,6 +44,9 @@ class CategoryService extends Service {
   async list(payload) {
     return await this.ctx.helper.model.list(Category, payload)
   }
+  async page(payload) {
+    return await this.ctx.helper.model.page(Category, payload)
+  }
 
   async batchDel(payload) {
     return this.ctx.model[Category].deleteMany({ _id: { $in: payload } })

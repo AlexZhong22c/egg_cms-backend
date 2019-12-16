@@ -42,6 +42,9 @@ class ArticleService extends Service {
   async list(payload) {
     return await this.ctx.helper.model.list(Article, payload)
   }
+  async page(payload) {
+    return await this.ctx.helper.model.page(Article, payload)
+  }
 
   /**
    * 方便调用，简化书写：
