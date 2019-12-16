@@ -43,9 +43,16 @@ class AppHooks {
           password: 'Aa111111',
           email: '12345@163.com',
       })
+      const article = await ctx.service.article.add({
+          title: '深入浅出JavaScript',
+          content: '这里是正文这里是正文',
+          author: user.id,
+          category: category.id
+      })
       const printWithColor = (str) => `\x1B[36m${str}\x1B[0m`
       console.log(printWithColor('testing category id:'), category.id)
       console.log(printWithColor('testing user id:'), user.id)
+      console.log(printWithColor('testing article id:'), article.id)
   }
 
   async serverDidReady() {
