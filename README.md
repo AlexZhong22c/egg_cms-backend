@@ -14,6 +14,7 @@
 - [x] **egg-validate**
   - 根据contract模型校验
   - `ctx.validate(ctx.rule.xxx)`
+  - 添加自定义类型`ObjectId`
 - [x] **egg-cors**
   - 允许跨域(安全问题依照具体项目来优化)
 
@@ -72,12 +73,12 @@ https://github.com/DG-Wangtao/egg-swagger-doc#contract%E5%AE%9A%E4%B9%89
 const ObjectIdRegex = /^[a-fA-F0-9]{24}$/;
 // ...
   async willReady() {
-      // All plugins have started, can do some thing before app ready
-      this.app.validator.addRule('ObjectId', (rule, value) => {
-        if (!ObjectIdRegex.test(value)) {
-          return 'should be an ObjectId';
-        }
-      });
+    // All plugins have started, can do some thing before app ready
+    this.app.validator.addRule('ObjectId', (rule, value) => {
+      if (!ObjectIdRegex.test(value)) {
+        return 'should be an ObjectId';
+      }
+    });
   }
 ```
 
