@@ -6,9 +6,6 @@ const cantFindText = '此文章不存在';
 
 class ArticleService extends Service {
   
-  /**
-   * @param {*} payload 
-   */
   async add(payload) {
     const { ctx } = this
     return ctx.model[Article].create(payload)

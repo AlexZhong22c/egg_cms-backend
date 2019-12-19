@@ -80,7 +80,7 @@ module.exports = appInfo => {
   config.jwt = {
     secret: 'you_guess',
     // FIXME: 调试的时候先临时把它关了：
-    enable: false, // default is false
+    enable: true, // default is false
     match: /^\/api/, // optional
   }
 
