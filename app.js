@@ -1,8 +1,8 @@
+const ObjectIdRegex = /^[a-fA-F0-9]{24}$/;
 /**
  *  全局定义
  * @param app
  */
-
 class AppHooks {
   constructor(app) {
       this.app = app;
@@ -25,6 +25,11 @@ class AppHooks {
 
   async willReady() {
       // All plugins have started, can do some thing before app ready
+      this.app.validator.addRule('ObjectId', (rule, value) => {
+        if (!ObjectIdRegex.test(value)) {
+          return 'should be an ObjectId';
+        }
+      });
   }
 
   async didReady() {
@@ -49,10 +54,17 @@ class AppHooks {
           author: user.id,
           category: category.id
       })
+      const commentList = await ctx.service.article.addComment({
+        id: article.id,
+        username: user.username,
+        content: '这里是评论的内容，这里是评论的内容'
+      })
+
       const printWithColor = (str) => `\x1B[36m${str}\x1B[0m`
       console.log(printWithColor('testing category id:'), category.id)
       console.log(printWithColor('testing user id:'), user.id)
       console.log(printWithColor('testing article id:'), article.id)
+      console.log(printWithColor('testing comment id:'), commentList[0].id)
   }
 
   async serverDidReady() {

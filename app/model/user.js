@@ -11,7 +11,7 @@ module.exports = app => {
       username: { type: String, unique: true, required: true },
       password: { type: String, required: true },
       email: { type: String, required: true },
-      avatar: { type: String, default: 'https://avatars3.githubusercontent.com/u/9441414' }
+      avatar: { type: String, default: 'https://avatars1.githubusercontent.com/u/22023108' }
     },
     baseSchemaOptions
   )

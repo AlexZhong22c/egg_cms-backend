@@ -62,6 +62,27 @@ npm i await-stream-ready stream-wormhole image-downloader -s
 - [ ] 校验密码格式；校验邮箱格式
 - [ ] 修改密码或者重置密码没有独立出接口出来
 
+
+#### egg-validate 添加自定义类型 ObjectId
+
+https://github.com/DG-Wangtao/egg-swagger-doc#contract%E5%AE%9A%E4%B9%89
+
+```js
+// app.js:
+const ObjectIdRegex = /^[a-fA-F0-9]{24}$/;
+// ...
+  async willReady() {
+      // All plugins have started, can do some thing before app ready
+      this.app.validator.addRule('ObjectId', (rule, value) => {
+        if (!ObjectIdRegex.test(value)) {
+          return 'should be an ObjectId';
+        }
+      });
+  }
+```
+
+> 而dto是定义一个对象的形式的格式，同样可被用作type，目前没用到。[参考](https://github.com/Yanshijie-EL/egg-swagger-doc/tree/master/test/fixtures/apps/swagger-doc-test/app/contract/dto)
+
 ### Development
 
 ```bash

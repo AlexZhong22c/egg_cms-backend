@@ -36,6 +36,10 @@ module.exports = appInfo => {
     // 根据文档自动生成路由：
     routerMap: true,
     enable: true,
+
+    // 自定义类型：
+    type: ['ObjectId'],
+    itemType: ['ObjectId']
   };
 
   config.cluster = {
@@ -76,7 +80,7 @@ module.exports = appInfo => {
   config.jwt = {
     secret: 'you_guess',
     // FIXME: 调试的时候先临时把它关了：
-    enable: true, // default is false
+    enable: false, // default is false
     match: /^\/api/, // optional
   }
 
