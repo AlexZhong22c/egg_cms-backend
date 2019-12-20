@@ -17,6 +17,8 @@
   - 添加自定义类型`ObjectId`
 - [x] **egg-cors**
   - 允许跨域(安全问题依照具体项目来优化)
+- [x] **mongoose-autopopulate**
+  -  [目前来说，功能足够灵活和强大](https://plugins.mongoosejs.io/plugins/autopopulate)
 
 > 以上`this.ctx`简写为`ctx`。
 

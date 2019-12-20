@@ -17,6 +17,7 @@
     "egg-swagger-doc-feat": "^2.2.13",
     "egg-validate": "^2.0.2",
     "image-downloader": "^3.5.0",
+    "mongoose-autopopulate": "^0.9.1",
     "stream-wormhole": "^1.1.0"
   },
   "devDependencies": {

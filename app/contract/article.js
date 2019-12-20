@@ -15,9 +15,21 @@ const updateArticleReq = {
   author: { type: 'ObjectId', description: '作者id', example: exampleObjectId },
   category: { type: 'ObjectId', description: '分类id', example: exampleObjectId }
 };
+
+const addArticleCommentReq = {
+  id: { type: 'ObjectId', description: 'ID', example: exampleObjectId },
+  username: { type: 'string', description: '用户名', example: 'cmsAdmin' },
+  content: { type: 'string', description: '评论的内容', example: '这里是评论的内容，这里是评论的内容' },
+};
+
+const delArticleCommentReq = {
+  id: { type: 'ObjectId', description: 'ID', example: exampleObjectId },
+  commentId: { type: 'ObjectId', description: 'ID', example: exampleObjectId }
 };
 
 module.exports = {
   addArticleReq,
-  updateArticleReq
+  updateArticleReq,
+  addArticleCommentReq,
+  delArticleCommentReq
 };
