@@ -150,6 +150,27 @@ pointer.orFail(/*...*/).populate('commentList.commenter') // 这样不行
 
 [Model.exists的模拟实现或者自定义插件实现](https://stackoverflow.com/questions/27482806/check-if-id-exists-in-a-collection-with-mongoose)
 
+#### `findByIdAndUpdate`配合`$push`、`$pull`操作某document的数组字段 的问题
+
+> 为了性能，`findByIdAndUpdate`默认返回被update前的document。如果设置了`option new`表示返回被更新后的document。
+
+我们可以通过对比js语法来了解问题：`[1,2,3].push(4)`返回的是`4`，也就是返回当前操作的项；而这里的`$push`、`$pull`返回的规则是与js不同的。
+
+通过`findByIdAndUpdate`操作`article.CommentList`的语句，没有办法直接返回数组中当前操作的`comment`，只能返回`article`整个document。
+
+在这个项目里面，用这个语句只能返回整个`article.CommentList`给前端了：
+
+```js
+  async delComment(payload) {
+    const { id, commentId } = payload
+    await this.findByIdAndUpdateOrFail(id, {
+      $pull: { commentList: { _id: commentId } }
+    });
+    const doc = await this.findByIdOrFail(id);
+    return doc.commentList;
+  }
+```
+
 ### Development
 
 ```bash
