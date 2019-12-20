@@ -6,7 +6,9 @@ const cantFindText = '用户不存在';
 const hasExistText = '该用户名已被注册';
 
 class UserService extends Service {
-  
+  /**
+   * 约定有一组service，和controller层的名字一一对应。
+   */
   /**
    * 创建用户(目前和注册账号的逻辑是一样的)
    * @param {*} payload 
@@ -27,15 +29,7 @@ class UserService extends Service {
    * @param {*} id 
    */
   async del(id) {
-    const { ctx } = this
-
-    // 显示错误更加合理：
-    const doc = await this.findById(id)
-    if (!doc) {
-      ctx.throw(404, cantFindText)
-    }
-
-    return ctx.model[User].findByIdAndRemove(id)
+    return this.findByIdAndDeleteOrFail(id);
   }
 
   /**
@@ -43,24 +37,15 @@ class UserService extends Service {
    * @param {*} payload 
    */
   async update(payload) {
-    const { ctx } = this
     const { id } = payload;
-    const doc = await this.findById(id)
-    if (!doc) {
-      ctx.throw(404, cantFindText)
-    }
-    return this.findByIdAndUpdate(id, payload)
+    return this.findByIdAndUpdateOrFail(id, payload)
   }
 
   /**
    * 查看单个用户
    */
   async detail(id) {
-    const doc = await this.findById(id)
-    if (!doc) {
-      this.ctx.throw(404, cantFindText)
-    }
-    return doc
+    return this.findByIdOrFail(id);
   }
 
   async list(payload) {
@@ -79,15 +64,22 @@ class UserService extends Service {
   }
 
 
-  /**
-   * 方便调用，简化书写：
-   */
-  async findById(...args) {
+  async findByIdOrFail(...args) {
     return this.ctx.model[User].findById(...args)
+      .orFail(() => this.ctx.throw(404, cantFindText));
   }
-  async findByIdAndUpdate(...args) {
+  async findByIdAndDeleteOrFail(...args) {
+    return this.ctx.model[User].findByIdAndDelete(...args)
+      .orFail(() => this.ctx.throw(404, cantFindText));
+  }
+  async findByIdAndUpdateOrFail(...args) {
     return this.ctx.model[User].findByIdAndUpdate(...args)
+      .orFail(() => this.ctx.throw(404, cantFindText));
   }
+
+  /**
+   * 方便调用，简化书写：(当做该实体的内部方法，其他实体最好不要调用这些方法)
+   */
   async findByUsername(username) {
     return this.ctx.model[User].findOne({ username })
   }

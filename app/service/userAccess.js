@@ -1,9 +1,12 @@
 const { Service } = require('egg')
 
-const cantFindText = '用户不存在';
+// const cantFindText = '用户不存在';
 const hasExistText = '该用户名已被注册';
 
 class UserAccessService extends Service {
+    /**
+     * 约定有一组service，和controller层的名字一一对应。
+     */
     async login(payload) {
         const { ctx, service } = this
         const doc = await this.findByUsername(payload.username) 
@@ -50,6 +53,9 @@ class UserAccessService extends Service {
     //     return doc
     // }
 
+    /**
+     * 方便调用，简化书写：(当做该实体的内部方法，其他实体最好不要调用这些方法)
+     */
     /**
      * 根据用户名查找
      * @param {*} username 

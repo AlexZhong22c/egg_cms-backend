@@ -8,7 +8,7 @@ const hasExistText = '此分类已经存在';
 class CategoryService extends Service {
   
   /**
-   * @param {*} payload 
+   * 约定有一组service，和controller层的名字一一对应。
    */
   async add(payload) {
     const { ctx } = this
@@ -21,26 +21,14 @@ class CategoryService extends Service {
   }
 
   async del(id) {
-    const { ctx } = this
-
-    // 显示错误更加合理：
-    const doc = await this.findById(id)
-    if (!doc) {
-      ctx.throw(404, cantFindText)
-    }
-
-    return ctx.model[Category].findByIdAndRemove(id)
+    return this.findByIdAndDeleteOrFail(id);
   }
 
   async update(payload) {
-    const { ctx } = this
     const { id } = payload;
-    const doc = await this.findById(id)
-    if (!doc) {
-      ctx.throw(404, cantFindText)
-    }
-    return this.findByIdAndUpdate(id, payload)
+    return this.findByIdAndUpdateOrFail(id, payload)
   }
+
   async list(payload) {
     return await this.ctx.helper.model.list(Category, payload)
   }
@@ -52,15 +40,22 @@ class CategoryService extends Service {
     return this.ctx.model[Category].deleteMany({ _id: { $in: payload } })
   }
 
-  /**
-   * 方便调用，简化书写：
-   */
-  async findById(...args) {
+  async findByIdOrFail(...args) {
     return this.ctx.model[Category].findById(...args)
+      .orFail(() => this.ctx.throw(404, cantFindText));
   }
-  async findByIdAndUpdate(...args) {
+  async findByIdAndDeleteOrFail(...args) {
+    return this.ctx.model[Category].findByIdAndDelete(...args)
+      .orFail(() => this.ctx.throw(404, cantFindText));
+  }
+  async findByIdAndUpdateOrFail(...args) {
     return this.ctx.model[Category].findByIdAndUpdate(...args)
+      .orFail(() => this.ctx.throw(404, cantFindText));
   }
+
+  /**
+   * 方便调用，简化书写：(当做该实体的内部方法，其他实体最好不要调用这些方法)
+   */
   async findByName(name) {
     return this.ctx.model[Category].findOne({ name })
   }

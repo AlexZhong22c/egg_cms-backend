@@ -66,6 +66,8 @@ npm i await-stream-ready stream-wormhole image-downloader -s
 
 #### egg-validate 添加自定义类型 ObjectId
 
+起因是因为发现报错`Cast to ObjectId failed for value ...`，我们加上egg-validate对ObjectId的检查，让它统一到该体系的422错误。
+
 https://github.com/DG-Wangtao/egg-swagger-doc#contract%E5%AE%9A%E4%B9%89
 
 ```js
@@ -83,6 +85,68 @@ const ObjectIdRegex = /^[a-fA-F0-9]{24}$/;
 ```
 
 > 而dto是定义一个对象的形式的格式，同样可被用作type，目前没用到。[参考](https://github.com/Yanshijie-EL/egg-swagger-doc/tree/master/test/fixtures/apps/swagger-doc-test/app/contract/dto)
+
+#### 为Queries方法封装orFail
+
+> 各种`Model.find**`和`Model.find**And**`方法被归类为Queries方法，Queries方法执行后返回的是`Query对象`(而不是Promise)。 [参考通俗的解释](https://itbilu.com/nodejs/npm/Hyn15of14.html)
+
+我想实现的需求是，执行`Model.find**`之后，如果find找不到对应的document，就去执行我定义的错误回调中的`ctx.throw(404, '该文章不存在')`。
+
+执行`ctx.throw(404, '该文章不存在')`是为了抛出一个错误提示给前端，前端再按照约定在页面上展示给用户，用户就会看到类似“该文章不存在”这样的友好提示。
+
+可以直接用不太优雅的代码来实现：
+
+```js
+  async myUpdate(payload) {
+    const { ctx } = this
+    const { id } = payload;
+    const doc = await this.findById(id)
+    if (!doc) {
+      ctx.throw(404, cantFindText)
+    }
+    return this.findByIdAndUpdate(id, payload)
+  }
+```
+
+以上代码实现了需求。但是其实执行了2次`find`；并且每次都要判断`if (!doc)`导致代码很多。
+
+[经过讨论，作者受启发实现orFail接口](https://github.com/Automattic/mongoose/issues/3298) [orFail在官方文档中的位置](https://mongoosejs.com/docs/api.html#query_Query-orFail)
+
+orFail接口在后续的新Mongoose版本中出现了以后，可以这样简单封装：
+
+(像myUpdate这个service一样，其他service取而代之每次调用findByIdAndUpdateOrFail就不用加错误提示代码，清爽多了)
+
+```js
+  async myUpdate(payload) {
+    const { id } = payload;
+    return this.findByIdAndUpdateOrFail(id, payload)
+  }
+
+  async findByIdAndUpdateOrFail(...args) {
+    return this.ctx.model[User].findByIdAndUpdate(...args)
+      .orFail(() => this.ctx.throw(404, cantFindText));
+  }
+```
+
+这个简单的封装：find方法后接`.orFail`有一个弊端就是：`orFail`被定位为用于一个查询语句的末端，所以没办法再后接`.populate`等方法，例如：
+
+```js
+const pointer = this.ctx.model['Article'].findByIdAndUpdate(id, payload);
+pointer.populate('commentList.commenter').orFail(/*...*/) // 这样可以
+pointer.orFail(/*...*/).populate('commentList.commenter') // 这样不行
+```
+
+##### 拓展阅读 Mongoose官方对`Queries查询`的定义
+
+[官方说明Mongoose Queries are Not Promises](https://mongoosejs.com/docs/queries.html#queries-are-not-promises)
+
+[官方对 Queries查询 的接口定义](http://mongoosejs.net/docs/queries.html)
+
+##### 拓展阅读`Modal.exists`
+
+如果在find之前先执行`Model.exists`判断，其实还是等价于用find查了2次。(`Model.exists`的底层实现还是`findOne`)
+
+[Model.exists的模拟实现或者自定义插件实现](https://stackoverflow.com/questions/27482806/check-if-id-exists-in-a-collection-with-mongoose)
 
 ### Development
 
