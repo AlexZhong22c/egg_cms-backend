@@ -9,7 +9,7 @@ class UserAccessService extends Service {
      */
     async login(payload) {
         const { ctx, service } = this
-        const doc = await this.findByUsername(payload.username) 
+        const doc = await this._findByUsername(payload.username) 
         if (!doc) {
             // 提高安全性：
             ctx.throw(401, '用户名或密码错误')
@@ -33,7 +33,7 @@ class UserAccessService extends Service {
     async signin(payload) {
         const { ctx } = this
 
-        const doc = await this.findByUsername(payload.username)
+        const doc = await this._findByUsername(payload.username)
         if (doc) {
             ctx.throw(409, hasExistText)
         }
@@ -60,7 +60,7 @@ class UserAccessService extends Service {
      * 根据用户名查找
      * @param {*} username 
      */
-    async findByUsername(username) {
+    async _findByUsername(username) {
         return this.ctx.model.User.findOne({ username })
     }
 }

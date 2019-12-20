@@ -14,25 +14,22 @@ class ArticleService extends Service {
     const { ctx } = this
     return ctx.model[Article].create(payload)
   }
-
+  async del(id) {
+    return this.findByIdAndDeleteOrFail(id);
+  }
   async update(payload) {
     const { id } = payload;
     return this.findByIdAndUpdateOrFail(id, payload)
   }
-
-  async del(id) {
-    return this.findByIdAndDeleteOrFail(id);
-  }
-
-  async batchDel(payload) {
-    return this.ctx.model[Article].deleteMany({ _id: { $in: payload } })
-  }
-
   async list(payload) {
     return await this.ctx.helper.model.list(Article, payload)
   }
   async page(payload) {
     return await this.ctx.helper.model.page(Article, payload)
+  }
+
+  async batchDel(payload) {
+    return this.ctx.model[Article].deleteMany({ _id: { $in: payload } })
   }
 
   async addComment(payload) {
@@ -61,7 +58,6 @@ class ArticleService extends Service {
     const doc = await this.findByIdOrFail(id);
     return doc.commentList;
   }
-
   async listComment(payload) {
     const { id } = payload;
     const doc = await this.findByIdOrFail(id);
