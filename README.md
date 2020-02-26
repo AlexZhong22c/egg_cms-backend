@@ -1,24 +1,32 @@
 # egg_cms-backend
 
-- [x] **egg-bcrypt**
-  - 混淆密码 对比密码
-  - `ctx.genHash`
-  - `ctx.compare`
-- [x] **egg-jwt**
-  - `ctx.app.jwt.sign({ data, exp }, ctx.app.config.jwt.secret)`
-- [x] **egg-mongoose**
-  - 操作数据库
-  - `ctx.model`
+**架构层面 演示：**
+
 - [x] **egg-swagger-doc-feat**
   - 根据jsdoc生成路由，swagger+jsdoc调试开发
 - [x] **egg-validate**
   - 根据contract模型校验
   - `ctx.validate(ctx.rule.xxx)`
   - 添加自定义类型`ObjectId`
-- [x] **egg-cors**
-  - 允许跨域(安全问题依照具体项目来优化)
+
+**工程模块层面 演示：**
+
+- [x] **egg-jwt**
+  - `ctx.app.jwt.sign({ data, exp }, ctx.app.config.jwt.secret)`
+- [x] **egg-mongoose**
+  - 操作数据库
+  - `ctx.model`
 - [x] **mongoose-autopopulate**
   -  [目前来说，功能足够灵活和强大](https://plugins.mongoosejs.io/plugins/autopopulate)
+- [x] **egg-cors**
+  - 允许跨域(安全问题依照具体项目来优化)
+
+**api运用层面 演示：**
+
+- [x] **egg-bcrypt**
+  - 混淆密码 对比密码
+  - `ctx.genHash`
+  - `ctx.compare`
 
 > 以上`this.ctx`简写为`ctx`。
 
@@ -35,10 +43,8 @@
 
 ## 路由
 
-```
-/auth/login 用户登入 post
-/auth/logout 用户登出 post
-```
+- 用户登入、用户登出
+- user/category/article各个模块curd+list+page
 
 ## 状态码
 
@@ -53,40 +59,15 @@
   - 报文的格式有问题
   - 调用egg-validate插件校验不通过
 
-## 上传
-
-```shell
-# 已安装：
-npm i await-stream-ready stream-wormhole image-downloader -s
-```
-
 ## TODO:
 
 - [ ] 校验密码格式；校验邮箱格式
 - [ ] 修改密码或者重置密码没有独立出接口出来
+- [ ] 目前用的是“子文档”来实现文档的嵌套，看看效果怎么样
+- [ ] fields字段查询列表要优化一下，正则的效果不太行。比如搜“测试”，只输入“测”搜不出来。
+- [ ] 如果操作的项在一条记录的某个字段下，findByIdAndUpdate没法只返回当前操作的项
 
-
-#### egg-validate 添加自定义类型 ObjectId
-
-起因是因为发现报错`Cast to ObjectId failed for value ...`，我们加上egg-validate对ObjectId的检查，让它统一到该体系的422错误。
-
-https://github.com/DG-Wangtao/egg-swagger-doc#contract%E5%AE%9A%E4%B9%89
-
-```js
-// app.js:
-const ObjectIdRegex = /^[a-fA-F0-9]{24}$/;
-// ...
-  async willReady() {
-    // All plugins have started, can do some thing before app ready
-    this.app.validator.addRule('ObjectId', (rule, value) => {
-      if (!ObjectIdRegex.test(value)) {
-        return 'should be an ObjectId';
-      }
-    });
-  }
-```
-
-> 而dto是定义一个对象的形式的格式，同样可被用作type，目前没用到。[参考](https://github.com/Yanshijie-EL/egg-swagger-doc/tree/master/test/fixtures/apps/swagger-doc-test/app/contract/dto)
+## Q & A：
 
 #### 为Queries方法封装orFail
 
@@ -112,7 +93,8 @@ const ObjectIdRegex = /^[a-fA-F0-9]{24}$/;
 
 以上代码实现了需求。但是其实执行了2次`find`；并且每次都要判断`if (!doc)`导致代码很多。
 
-[经过讨论，作者受启发实现orFail接口](https://github.com/Automattic/mongoose/issues/3298) [orFail在官方文档中的位置](https://mongoosejs.com/docs/api.html#query_Query-orFail)
+- [经过讨论，作者受启发实现orFail接口](https://github.com/Automattic/mongoose/issues/3298)
+- [orFail在官方文档中的位置](https://mongoosejs.com/docs/api.html#query_Query-orFail)
 
 orFail接口在后续的新Mongoose版本中出现了以后，可以这样简单封装：
 
@@ -138,37 +120,11 @@ pointer.populate('commentList.commenter').orFail(/*...*/) // 这样可以
 pointer.orFail(/*...*/).populate('commentList.commenter') // 这样不行
 ```
 
-##### 拓展阅读 Mongoose官方对`Queries查询`的定义
+#### 上传图片的组件
 
-[官方说明Mongoose Queries are Not Promises](https://mongoosejs.com/docs/queries.html#queries-are-not-promises)
-
-[官方对 Queries查询 的接口定义](http://mongoosejs.net/docs/queries.html)
-
-##### 拓展阅读`Modal.exists`
-
-如果在find之前先执行`Model.exists`判断，其实还是等价于用find查了2次。(`Model.exists`的底层实现还是`findOne`)
-
-[Model.exists的模拟实现或者自定义插件实现](https://stackoverflow.com/questions/27482806/check-if-id-exists-in-a-collection-with-mongoose)
-
-#### `findByIdAndUpdate`配合`$push`、`$pull`操作某document的数组字段 的问题
-
-> 为了性能，`findByIdAndUpdate`默认返回被update前的document。如果设置了`option new`表示返回被更新后的document。
-
-我们可以通过对比js语法来了解问题：`[1,2,3].push(4)`返回的是`4`，也就是返回当前操作的项；而这里的`$push`、`$pull`返回的规则是与js不同的。
-
-通过`findByIdAndUpdate`操作`article.CommentList`的语句，没有办法直接返回数组中当前操作的`comment`，只能返回`article`整个document。
-
-在这个项目里面，用这个语句只能返回整个`article.CommentList`给前端了：
-
-```js
-  async delComment(payload) {
-    const { id, commentId } = payload
-    await this.findByIdAndUpdateOrFail(id, {
-      $pull: { commentList: { _id: commentId } }
-    });
-    const doc = await this.findByIdOrFail(id);
-    return doc.commentList;
-  }
+```shell
+# 已安装：
+npm i await-stream-ready stream-wormhole image-downloader -s
 ```
 
 ### Development
