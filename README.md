@@ -1,6 +1,11 @@
 > [该项目对应的前端部分](https://github.com/AlexZhong22c/umi_cms-frontend)
 
-# egg_cms-backend
+# egg_cms-backend 内容管理系统后端
+
+**功能实现：**
+
+- 用户登入、用户登出
+- 用户/文章分类/文章 各个模块增删查改+列出列表+分页列表
 
 **架构层面 演示：**
 
@@ -42,11 +47,6 @@
 - [x] 用`id`代替`_id`返回给client
 - [x] 变量名不要包含`delete`，免得解构到了哪一层和js关键字`delete`重名
 - [ ] 接入EasyMock
-
-## 路由
-
-- 用户登入、用户登出
-- user/category/article各个模块curd+list+page
 
 ## 状态码
 
