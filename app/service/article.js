@@ -35,7 +35,8 @@ class ArticleService extends Service {
   async addComment(payload) {
     const { ctx } = this
     const { id, username, content } = payload
-    const userDoc = await ctx.model[User].findOne({ username })
+    // @TODO: 为了测试方便，先做简化处理：
+    const userDoc = await ctx.model[User].findOne({ username: 'cmsAdmin' })
       .orFail(() => this.ctx.throw(404, cantFindTextOfUser));
     const comment = {
       commenter: userDoc.id,
