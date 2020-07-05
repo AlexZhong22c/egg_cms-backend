@@ -59,8 +59,8 @@ module.exports = appInfo => {
       useCreateIndex: true,
       useFindAndModify: true,
 
-      autoReconnect: true,
-      reconnectTries: Number.MAX_VALUE,
+      // autoReconnect: true,
+      // reconnectTries: Number.MAX_VALUE,
       bufferMaxEntries: 0,
     },
   }
