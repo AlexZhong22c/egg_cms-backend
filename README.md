@@ -132,6 +132,14 @@ npm i await-stream-ready stream-wormhole image-downloader -s
 
 ### Development
 
+为了提高安全性，`/config/config.default.js`的某些字段由`config/secret-constant.js`文件提供，而这个文件需要你自己创建并且设置对应字段(下面是设置的示例)：
+
+```js
+exports.mongooseUrl = 'mongodb://127.0.0.1:27017/example_cms_name';
+exports.jwtSecret = 'anything';
+exports.appInfoKeySalt = 'anything';
+```
+
 ```bash
 $ npm i
 $ npm run dev

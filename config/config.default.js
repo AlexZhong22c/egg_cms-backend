@@ -1,5 +1,7 @@
 /* eslint valid-jsdoc: "off" */
 const { resDataName } = require('./constant')
+// 这个文件保存一些密码等信息。没有传到网上，对应着字段创建对应的变量就可以了：
+const { mongooseUrl, jwtSecret, appInfoKeySalt } = require('./secret-constant')
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -11,7 +13,7 @@ module.exports = appInfo => {
   const config = exports = {};
 
   // use for cookie sign key, should change to your own and keep security
-  config.keys = appInfo.name + '_1574475944897_2235';
+  config.keys = appInfo.name + appInfoKeySalt;
 
   // respond时候的包含主要返回内容的json的key:
   config.resDataName = resDataName;
@@ -50,7 +52,7 @@ module.exports = appInfo => {
   }
 
   config.mongoose = {
-    url: 'mongodb://127.0.0.1:27017/egg_cms2',
+    url: mongooseUrl,
     options: {
       // useMongoClient: true,
       // still use mongoose old api: https://blog.csdn.net/qq_42760049/article/details/98593923
@@ -78,9 +80,9 @@ module.exports = appInfo => {
   }
 
   config.jwt = {
-    secret: 'you_guess',
+    secret: jwtSecret,
     // FIXME: 调试的时候先临时把它关了：
-    enable: true, // default is false
+    enable: false, // default is false
     match: /^\/api/, // optional
   }
 
